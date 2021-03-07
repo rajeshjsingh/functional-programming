@@ -3,6 +3,7 @@ package examples;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FlatMapExample {
 
@@ -15,28 +16,27 @@ public class FlatMapExample {
 
         System.out.println();
 
-        // concatenate first name and last name using stream map function
+        // get all Address  using stream flat map function
 
-        List<String> names = users.stream().map(t -> {
-            String name = t.getFirstName() + " " + t.getLastName();
-            return  name;
+        List<String> names = users.stream().flatMap(t -> {
+            Stream<String> cities = t.getAddresses().stream();
+            return  cities;
         }).collect(Collectors.toList());
 
         names.stream().forEach(t -> System.out.println(t));
 
         System.out.println();
         // Line # 17 to #21 can be achieved in one line of code
-        users.stream().map(t ->  t.getFirstName() + " " + t.getLastName()).forEach(System.out::println);
-
+        users.stream().flatMap(t ->  t.getAddresses().stream()).forEach(t -> System.out.println(t));
     }
 
     private  List<User> getUsers(){
         List<User> users = Arrays.asList(
-                new User("Tom","Mathews",42,"M"),
-                new User("Linda","Rey",35,"F"),
-                new User("Borris","Beker",50,"M"),
-                new User("Maria","Sarapova",35,"F"),
-                new User("Rafel","Nadal",40,"M")
+                new User("Tom1","Mathews",42,"M", Arrays.asList("NY","NJ")),
+                new User("Linda","Rey",35,"F",Arrays.asList("TN","VA")),
+                new User("Borris","Beker",50,"M",Arrays.asList("TX","IL")),
+                new User("Maria","Sarapova",35,"F",Arrays.asList("AZ","DE")),
+                new User("Rafel","Nadal",40,"M",Arrays.asList("IN","FL"))
 
         );
         return users;
@@ -46,12 +46,14 @@ public class FlatMapExample {
         private String lastName;
         private String sex;
         private int age;
+        private List<String> addresses;
 
-        public User(String firstName,String lastName, int age,String sex){
+        public User(String firstName,String lastName, int age,String sex,List<String> addresses){
             this.firstName = firstName;
             this.lastName = lastName;
             this.age = age;
             this.sex = sex;
+            this.addresses = addresses;
         }
 
         public String getFirstName() {
@@ -86,6 +88,14 @@ public class FlatMapExample {
             this.age = age;
         }
 
+        public List<String> getAddresses() {
+            return addresses;
+        }
+
+        public void setAddresses(List<String> addresses) {
+            this.addresses = addresses;
+        }
+
         @Override
         public String toString() {
             return "User{" +
@@ -93,6 +103,7 @@ public class FlatMapExample {
                     ", lastName='" + lastName + '\'' +
                     ", sex='" + sex + '\'' +
                     ", age=" + age +
+                    ", addresses=" + addresses +
                     '}';
         }
     }
