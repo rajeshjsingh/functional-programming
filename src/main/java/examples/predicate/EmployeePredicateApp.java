@@ -19,5 +19,6 @@ public class EmployeePredicateApp {
 
                 );
         System.out.println( EmployeePredicates.filterEmployees(employees, EmployeePredicates.isAdultMale()) );
+        System.out.println( EmployeePredicates.filterEmployees(employees, EmployeePredicates.isAdultFemale()) );
     }
 }
