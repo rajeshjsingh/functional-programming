@@ -13,6 +13,7 @@ public class MyQueue<E> {
 
         System.out.println(myQueue.get());
         System.out.println(myQueue.get());
+        System.out.println("This is test");
     }
 
     public MyQueue(){
